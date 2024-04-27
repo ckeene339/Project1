@@ -1,0 +1,70 @@
+from tkinter import *
+from Project1_save import *
+
+class GUI:
+    def __init__(self, window):
+        self.window = window
+        
+        
+        
+        '''
+        Code below sets up text box to select number of votes you want someone to recieve.
+        '''
+        self.frame_votes = Frame(self.window)
+        self.label_votes = Label(self.frame_votes, text='Number of Votes')
+        self.input_votes = Entry(self.frame_votes)
+        self.label_votes.pack(side='top')
+        self.input_votes.pack(padx=5, side='top')
+        self.frame_votes.pack(anchor='w', padx=105, pady=10)
+        
+        
+        
+        '''
+        Code below sets up buttons for what candidate you wish to vote for.
+        '''
+        self.frame_status = Frame(self.window)
+        self.radio_answer = IntVar()
+        self.radio_answer.set(0)
+        self.candidate_john = Radiobutton(self.frame_status, text='John', variable=self.radio_answer, value=1)
+        self.candidate_brett = Radiobutton(self.frame_status, text='Brett', variable=self.radio_answer, value=2)
+        self.candidate_kate = Radiobutton(self.frame_status, text='Kate', variable=self.radio_answer, value=3)
+        self.candidate_john.pack(side='left')
+        self.candidate_brett.pack(side='left')
+        self.candidate_kate.pack(side='left')
+        self.frame_status.pack()
+        
+        
+        
+        '''
+        When button "VOTE" is pressed, command "submit" is called.
+        '''
+        self.button_save = Button(self.window, text='VOTE', command=self.submit)
+        self.button_save.pack(anchor='w', padx=150, pady=10)
+        self.frame_info = Frame(self.window)
+        self.label_info = Label(self.frame_info, text='Please fill out all values')
+        self.label_info.pack(side='bottom')
+        self.frame_info.pack(anchor='w', padx=105, pady=5)
+        
+        
+        
+        '''
+        The "def submit" function calls "Project1_save" to test for any errors,
+        prints a message in the window, and saves data to csv file.
+        '''
+    def submit(self):
+        
+        votes = self.input_votes.get()
+        candidate = self.radio_answer.get()
+        candidate_text = {1: "John", 2: "Brett", 3: "Kate"}
+        
+        
+        
+        '''
+        save.save_data is only called when save.test returns True.
+        '''
+        save = SAVE()
+        if save.test_data(votes, candidate, candidate_text, self.label_info):
+            save.save_data(candidate, candidate_text, self.label_info, self.radio_answer, self.input_votes)
+        else:
+            print("Test failed. Data not saved.")
+        
