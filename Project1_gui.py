@@ -5,17 +5,20 @@ class GUI:
     def __init__(self, window):
         self.window = window
         
+        self.window.configure(background='lightgray')
         
+        self.label_title = Label(self.window, text="Voting Application", font=("Arial", 24))
+        self.label_title.pack(pady=15)
         
         '''
         Code below sets up text box to select number of votes you want someone to recieve.
         '''
-        self.frame_votes = Frame(self.window)
-        self.label_votes = Label(self.frame_votes, text='Number of Votes')
-        self.input_votes = Entry(self.frame_votes)
-        self.label_votes.pack(side='top')
-        self.input_votes.pack(padx=5, side='top')
-        self.frame_votes.pack(anchor='w', padx=105, pady=10)
+        self.frame_voterID = Frame(self.window)
+        self.label_voterID = Label(self.frame_voterID, text='ID:', font=("Arial", 20))
+        self.input_voterID = Entry(self.frame_voterID, width=25, font=("Arial", 15))
+        self.label_voterID.pack(side='left')
+        self.input_voterID.pack(padx=5, pady=5, side='top')
+        self.frame_voterID.pack(anchor='w', padx=105, pady=10)
         
         
         
@@ -25,9 +28,9 @@ class GUI:
         self.frame_status = Frame(self.window)
         self.radio_answer = IntVar()
         self.radio_answer.set(0)
-        self.candidate_john = Radiobutton(self.frame_status, text='John', variable=self.radio_answer, value=1)
-        self.candidate_brett = Radiobutton(self.frame_status, text='Brett', variable=self.radio_answer, value=2)
-        self.candidate_kate = Radiobutton(self.frame_status, text='Kate', variable=self.radio_answer, value=3)
+        self.candidate_john = Radiobutton(self.frame_status, text='John', variable=self.radio_answer, value=1, font=("Arial", 12))
+        self.candidate_brett = Radiobutton(self.frame_status, text='Brett', variable=self.radio_answer, value=2, font=("Arial", 12))
+        self.candidate_kate = Radiobutton(self.frame_status, text='Kate', variable=self.radio_answer, value=3, font=("Arial", 12))
         self.candidate_john.pack(side='left')
         self.candidate_brett.pack(side='left')
         self.candidate_kate.pack(side='left')
@@ -38,10 +41,11 @@ class GUI:
         '''
         When button "VOTE" is pressed, command "submit" is called.
         '''
-        self.button_save = Button(self.window, text='VOTE', command=self.submit)
+        self.button_save = Button(self.window, text='VOTE', command=self.submit, font=("Arial", 12))
+        self.button_save.config(width=205, height=1)
         self.button_save.pack(anchor='w', padx=150, pady=10)
         self.frame_info = Frame(self.window)
-        self.label_info = Label(self.frame_info, text='Please fill out all values')
+        self.label_info = Label(self.frame_info, text='Enter a valid 6 digit\nVoter ID', font=("Arial", 12))
         self.label_info.pack(side='bottom')
         self.frame_info.pack(anchor='w', padx=105, pady=5)
         
@@ -53,7 +57,7 @@ class GUI:
         '''
     def submit(self):
         
-        votes = self.input_votes.get()
+        voter = self.input_voterID.get()
         candidate = self.radio_answer.get()
         candidate_text = {1: "John", 2: "Brett", 3: "Kate"}
         
@@ -63,8 +67,8 @@ class GUI:
         save.save_data is only called when save.test returns True.
         '''
         save = SAVE()
-        if save.test_data(votes, candidate, candidate_text, self.label_info):
-            save.save_data(candidate, candidate_text, self.label_info, self.radio_answer, self.input_votes)
+        if save.test_data(voter, candidate, candidate_text, self.label_info):
+            save.save_data(voter, candidate, candidate_text, self.label_info, self.radio_answer, self.input_voterID)
         else:
             print("Test failed. Data not saved.")
         

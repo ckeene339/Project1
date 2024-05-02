@@ -8,8 +8,8 @@ from Project1_gui import *
 
 def main():
     window = Tk()
-    window.title('Project 1')
-    window.geometry('340x270')
+    window.title('')
+    window.geometry('360x320')
     window.resizable(False, False)
     GUI(window)
     window.mainloop()
